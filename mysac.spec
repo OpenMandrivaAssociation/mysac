@@ -8,7 +8,7 @@
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
-Summary:    	MySACL library: MySAC is a library that provides mechanisms for making asynchronous request to MySQL database.
+Summary:    	MySACL library: MySAC is a library that provides mechanisms for making asynchronous request to MySQL database
 License:    	GPLv3+
 Group:      	Networking/Other
 URL:        	http://www.arpalert.org/mysac.html
