@@ -1,6 +1,6 @@
 %define name    mysac
 %define version 1.1.1
-%define release %mkrel 1
+%define release %mkrel 2
 %define major 0
 %define libname %mklibname %{name}  %{major}
 %define develname %mklibname %{name} -d
@@ -9,7 +9,7 @@ Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 Summary:    	MySACL library: MySAC is a library that provides mechanisms for making asynchronous request to MySQL database
-License:    	GPLv3+
+License:    	GPL
 Group:      	Networking/Other
 URL:        	http://www.arpalert.org/mysac.html
 Source:     	http://www.arpalert.org/src/%{name}-%{version}.tar.gz
@@ -20,9 +20,12 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}
 %endif
 
 %description
-MySAC is a library that provides mechanisms for making asynchronous request to MySQL database.  
-It uses uses the official MySQL client library for authentication and network functions. 
-Memory allocation must be done in user code, so any memory manager can be used
+MySAC is a library that provides mechanisms for 
+making asynchronous request to MySQL database.  
+It uses uses the official MySQL client library 
+for authentication and network functions. 
+Memory allocation must be done in user code, so
+any memory manager can be used
 
 %package -n     %{libname}
 Summary:        Main library for mysac
@@ -30,9 +33,12 @@ Group:          System/Libraries
 Provides:       %{name} = %{version}-%{release}
 
 %description -n %{libname}
-MySAC is a library that provides mechanisms for making asynchronous request to MySQL database.  
-It uses uses the official MySQL client library for authentication and network functions. 
-Memory allocation must be done in user code, so any memory manager can be used
+MySAC is a library that provides mechanisms for 
+making asynchronous request to MySQL database.  
+It uses uses the official MySQL client library 
+for authentication and network functions. 
+Memory allocation must be done in user code, so 
+any memory manager can be used
 
 
 %package        -n     %{develname}
@@ -43,9 +49,12 @@ Provides:       %{name}-devel = %{version}-%{release}
 Requires:  	mysql-devel
 
 %description    -n %{develname}
-MySAC is a library that provides mechanisms for making asynchronous request to MySQL database.
-It uses uses the official MySQL client library for authentication and network functions.
-Memory allocation must be done in user code, so any memory manager can be used.
+MySAC is a library that provides mechanisms for 
+making asynchronous request to MySQL database.
+It uses uses the official MySQL client library 
+for authentication and network functions.
+Memory allocation must be done in user code, so 
+any memory manager can be used.
 These are .h files
 
 %if %mdkversion < 200900
