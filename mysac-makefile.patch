@@ -1,0 +1,48 @@
+--- mysac-1.1.1/Makefile	2011-06-06 14:58:33.000000000 -0500
++++ mysac-1.1.1.dlucio/Makefile	2011-06-25 22:20:25.813929641 -0500
+@@ -28,7 +28,7 @@
+ # and use "VERSION" file if unknown.
+ BUILDVER := $(shell ./mysac_ver)
+ 
+-CFLAGS = -DBUILDVER=$(BUILDVER) -I$(MYSQL_INC) -O0 -g -Wall -Werror -fpic
++CFLAGS = -DBUILDVER=$(BUILDVER) -I$(MYSQL_INC) -O0 -g -Wall  -fpic
+ LDFLAGS = -g -L$(MYSQL_LIB) -lmysqlclient_r
+ 
+ OBJS = mysac.o mysac_net.o mysac_decode_field.o mysac_decode_row.o mysac_encode_values.o mysac_errors.o
+@@ -45,11 +45,13 @@
+ 	tar --exclude .git -C /tmp/ -vzcf mysac-$(BUILDVER).tar.gz mysac-$(BUILDVER) && \
+ 	rm -rf /tmp/mysac-$(BUILDVER) >/dev/null 2>&1; \
+ 
+-lib: libmysac-static.a libmysac.so exemple
++lib: libmysac-static.a libmysac.so 
++#exemple
+ #libmysac.so
+ 
+ libmysac.so: $(OBJS)
+-	$(LD) -o libmysac.so -shared -soname libmysac.so.0.0 $(OBJS)
++	$(LD) -o libmysac.so.0.0 -shared -soname libmysac.so.0.0 $(OBJS)
++	ln -s libmysac.so.0.0 libmysac.so
+ 
+ libmysac-static.a: $(OBJS)
+ 	$(AR) -rcv libmysac-static.a $(OBJS)
+@@ -60,11 +62,11 @@
+ 		echo "$${src//.c/.o}: $$src $$DEPS"; \
+ 	done > make.deps
+ 
+-exemple: libmysac-static.a
+-	$(MAKE) -C exemple CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
++#exemple: libmysac-static.a
++#	$(MAKE) -C exemple CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
+ 
+ clean:
+-	$(MAKE) -C exemple clean
++#	$(MAKE) -C exemple clean
+ 	rm -rf make.deps libmysac.so libmysac-static.a main.o man html $(OBJS)
+ 
+ doc:
+@@ -77,4 +79,4 @@
+ 
+ include make.deps
+ 
+-.PHONY: exemple
++#.PHONY: exemple
