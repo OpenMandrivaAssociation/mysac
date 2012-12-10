@@ -92,3 +92,16 @@ These are .h files
 %{_libdir}/libmysac-static.a
 
 
+
+
+%changelog
+* Thu Jan 26 2012 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.1.1-2mdv2012.0
++ Revision: 769224
+- SPEC fixes
+
+* Sun Jun 26 2011 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.1.1-1
++ Revision: 687238
+- spec fixes
+- 1st import
+- import mysac
+
