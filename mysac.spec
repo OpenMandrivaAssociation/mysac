@@ -1,107 +1,72 @@
-%define name    mysac
-%define version 1.1.1
-%define release %mkrel 2
-%define major 0
-%define libname %mklibname %{name}  %{major}
-%define develname %mklibname %{name} -d
+%define major 0.0
+%define libname %mklibname %{name} %{major}
+%define devname %mklibname %{name} -d
 
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
-Summary:    	MySACL library: MySAC is a library that provides mechanisms for making asynchronous request to MySQL database
-License:    	GPL
-Group:      	Networking/Other
-URL:        	http://www.arpalert.org/mysac.html
-Source:     	http://www.arpalert.org/src/%{name}-%{version}.tar.gz
+Summary:	Provides mechanisms for making asynchronous request to MySQL database
+Name:		mysac
+Version:	1.1.1
+Release:	3
+License:	GPLv2+
+Group:		Networking/Other
+Url:		http://www.arpalert.org/mysac.html
+Source0:	http://www.arpalert.org/src/%{name}-%{version}.tar.gz
 Patch0:		mysac-makefile.patch
-BuildRequires:  mysql-devel
-%if %mdkversion < 200800
-BuildRoot:  %{_tmppath}/%{name}-%{version}
-%endif
+BuildRequires:	mysql-devel
 
 %description
-MySAC is a library that provides mechanisms for 
-making asynchronous request to MySQL database.  
-It uses uses the official MySQL client library 
-for authentication and network functions. 
-Memory allocation must be done in user code, so
-any memory manager can be used
+MySAC is a library that provides mechanisms for making asynchronous
+request to MySQL database. It uses uses the official MySQL client
+library for authentication and network functions. Memory allocation
+must be done in user code, so any memory manager can be used.
 
-%package -n     %{libname}
-Summary:        Main library for mysac
-Group:          System/Libraries
-Provides:       %{name} = %{version}-%{release}
+#----------------------------------------------------------------------------
+
+%package -n %{libname}
+Summary:	Shared library for mysac
+Group:		System/Libraries
+Conflicts:	%{_lib}mysac0 < 1.1.1-3
+Obsoletes:	%{_lib}mysac0 < 1.1.1-3
 
 %description -n %{libname}
-MySAC is a library that provides mechanisms for 
-making asynchronous request to MySQL database.  
-It uses uses the official MySQL client library 
-for authentication and network functions. 
-Memory allocation must be done in user code, so 
-any memory manager can be used
-
-
-%package        -n     %{develname}
-Summary:        Header files for the dssl library
-Group:          Development/C
-Requires:       %{libname} = %{version}
-Provides:       %{name}-devel = %{version}-%{release}
-Requires:  	mysql-devel
-
-%description    -n %{develname}
-MySAC is a library that provides mechanisms for 
-making asynchronous request to MySQL database.
-It uses uses the official MySQL client library 
-for authentication and network functions.
-Memory allocation must be done in user code, so 
-any memory manager can be used.
-These are .h files
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
-%prep
-%setup -q 
-%patch0 -p1 -b .makefile
-#export LIBS=-lpcap 
-#configure2_5x --enable-shared
-
-%build
-%make
-%{__mkdir_p}  %{buildroot}%{_includedir}
-%{__mkdir_p}  %{buildroot}%{_libdir}
-%{__install}  -m0755 libmysac.so*  %{buildroot}%{_libdir}
-%{__install}  -m0755 libmysac-static.a  %{buildroot}%{_libdir}
-%{__install}  -m0755 *.h  %{buildroot}%{_includedir}
-
-
-%clean
-%{__rm} -rf %{buildroot}
+MySAC is a library that provides mechanisms for making asynchronous
+request to MySQL database. It uses uses the official MySQL client
+library for authentication and network functions. Memory allocation
+must be done in user code, so any memory manager can be used.
 
 %files -n %{libname}
-%defattr(-,root,root)
 %{_libdir}/libmysac.so.%{major}*
 
+#----------------------------------------------------------------------------
 
-%files  -n %{develname}
-%defattr(-,root,root)
+%package -n %{devname}
+Summary:	Development files for the mysac library
+Group:		Development/C
+Requires:	%{libname} = %{EVRD}
+Provides:	%{name}-devel = %{EVRD}
+
+%description -n %{devname}
+Development files for the mysac library.
+
+%files  -n %{devname}
 %{_includedir}/*.h
 %{_libdir}/libmysac.so
-%{_libdir}/libmysac-static.a
 
+#----------------------------------------------------------------------------
 
+%prep
+%setup -q
+%patch0 -p1 -b .makefile
 
+%build
+%make \
+	CFLAGS="%{optflags} -DBUILDVER=%{version} -I/usr/include/mysql " \
+	LDFLAGS="%{ldflags} -lmysqlclient_r"
 
-%changelog
-* Thu Jan 26 2012 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.1.1-2mdv2012.0
-+ Revision: 769224
-- SPEC fixes
-
-* Sun Jun 26 2011 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.1.1-1
-+ Revision: 687238
-- spec fixes
-- 1st import
-- import mysac
-
+%install
+mkdir -p %{buildroot}%{_includedir}
+mkdir -p %{buildroot}%{_libdir}
+install -m0755 libmysac.so.%{major} %{buildroot}%{_libdir}
+install -m0755 *.h  %{buildroot}%{_includedir}
+pushd %{buildroot}%{_libdir}
+ln -s libmysac.so.%{major} libmysac.so
+popd
