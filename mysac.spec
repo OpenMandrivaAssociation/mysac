@@ -5,7 +5,7 @@
 Summary:	Provides mechanisms for making asynchronous request to MySQL database
 Name:		mysac
 Version:	1.1.1
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Networking/Other
 Url:		http://www.arpalert.org/mysac.html
