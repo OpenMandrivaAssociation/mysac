@@ -8,7 +8,7 @@ Version:	1.1.1
 Release:	4
 License:	GPLv2+
 Group:		Networking/Other
-Url:		http://www.arpalert.org/mysac.html
+Url:		https://www.arpalert.org/mysac.html
 Source0:	http://www.arpalert.org/src/%{name}-%{version}.tar.gz
 Patch0:		mysac-makefile.patch
 BuildRequires:	mysql-devel
