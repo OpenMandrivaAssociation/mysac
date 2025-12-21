@@ -11,6 +11,7 @@ Group:		Networking/Other
 Url:		https://www.arpalert.org/mysac.html
 Source0:	http://www.arpalert.org/src/%{name}-%{version}.tar.gz
 Patch0:		mysac-makefile.patch
+BuildRequires:	make
 BuildRequires:	mysql-devel
 
 %description
